@@ -51,6 +51,24 @@
         </div>
     </div>
     <script>
+        function animAlert(context){
+            context.css({
+                'display': 'block',
+            });
+            context.animate({
+                opacity: 1,
+            }, 500, function () {
+                setTimeout(function (){
+                    context.animate({
+                        opacity: 0,
+                    }, 500, function () {
+                        context.css({
+                            'display': 'none',
+                        })
+                    })
+                }, 2000);
+            });
+        }
         let error = $('.alert-danger');
         let success = $('.alert-success');
         $("#send").click(function (event) {
@@ -74,44 +92,13 @@
                         "<td>" + response.recording.count + "</td>" +
                         "</tr>"
                     );
-                    console.log(response)
                     $('#alertSuccess').text(response.success);
-                    success.css({
-                        'display': 'block',
-                    });
-                    success.animate({
-                        opacity: 1,
-                    }, 500, function () {
-                        setTimeout(function (){
-                            success.animate({
-                                opacity: 0,
-                            }, 500, function () {
-                                success.css({
-                                    'display': 'none',
-                                })
-                            })
-                        }, 2000);
-                    });
+                    animAlert(success);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     json = JSON.parse(xhr.responseText);
                     $('#alertError').text(json.errors.link);
-                    error.css({
-                        'display': 'block',
-                    });
-                    error.animate({
-                        opacity: 1,
-                    }, 500, function () {
-                        setTimeout(function (){
-                            error.animate({
-                                opacity: 0,
-                            }, 500, function () {
-                                error.css({
-                                    'display': 'none',
-                                })
-                            })
-                        }, 2000);
-                    });
+                    animAlert(error);
                 }
             });
         });

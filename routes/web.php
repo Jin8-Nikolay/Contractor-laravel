@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShortLinkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('short-link',
+    [ShortLinkController::class, 'index']
+)->name('generate.short.link');
+
+Route::post('short-link',
+    [ShortLinkController::class, 'store']
+)->name('generate.short.link.post');
+
+Route::get('{code}',
+    [ShortLinkController::class, 'shortLink']
+)->name('short.link');
+
+

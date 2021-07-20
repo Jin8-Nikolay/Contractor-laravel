@@ -6,7 +6,7 @@
 
         <div class="card">
             <div class="card-header">
-                <form id="ajaxForm">
+                <form id="ajaxForm" action="{{ route('generate.short.link.post') }}">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" name="link" class="form-control" placeholder="URl">
@@ -50,58 +50,5 @@
             </div>
         </div>
     </div>
-    <script>
-        function animAlert(context){
-            context.css({
-                'display': 'block',
-            });
-            context.animate({
-                opacity: 1,
-            }, 500, function () {
-                setTimeout(function (){
-                    context.animate({
-                        opacity: 0,
-                    }, 500, function () {
-                        context.css({
-                            'display': 'none',
-                        })
-                    })
-                }, 2000);
-            });
-        }
-        let error = $('.alert-danger');
-        let success = $('.alert-success');
-        $("#send").click(function (event) {
-            event.preventDefault();
-            let link = $("input[name=link]").val();
-            let _token = $('meta[name="csrf-token"]').attr('content');
-            console.log(link);
-            $.ajax({
-                type: "POST",
-                url: "{{ route('generate.short.link.post') }}",
-                data: {
-                    link: link,
-                    _token: _token,
-                },
-                success: function (response) {
-                    $("#tbody").prepend(
-                        "<tr>" +
-                        "<td>" + response.recording.id + "</td>" +
-                        "<td> <a href='http://contractor/"+response.recording.code+"' target='_blank' >http://contractor/" + response.recording.code + "</a></td>" +
-                        "<td>" + response.recording.link + "</td>" +
-                        "<td>" + response.recording.count + "</td>" +
-                        "</tr>"
-                    );
-                    $('#alertSuccess').text(response.success);
-                    animAlert(success);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    json = JSON.parse(xhr.responseText);
-                    $('#alertError').text(json.errors.link);
-                    animAlert(error);
-                }
-            });
-        });
-    </script>
 @endsection
 

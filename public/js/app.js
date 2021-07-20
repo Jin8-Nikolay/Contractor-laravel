@@ -1904,6 +1904,25 @@ var app = new Vue({
   el: '#app'
 });
 
+function animAlert(context) {
+  context.css({
+    'display': 'block'
+  });
+  context.animate({
+    opacity: 1
+  }, 500, function () {
+    setTimeout(function () {
+      context.animate({
+        opacity: 0
+      }, 500, function () {
+        context.css({
+          'display': 'none'
+        });
+      });
+    }, 2000);
+  });
+}
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

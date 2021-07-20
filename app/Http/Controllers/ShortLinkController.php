@@ -17,7 +17,7 @@ class ShortLinkController extends Controller
 
     public function store(Request $request)
     {
-        $validator = $request->validate([
+         $request->validate([
             'link' => 'required|url'
         ]);
 
